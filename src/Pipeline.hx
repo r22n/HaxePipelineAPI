@@ -20,6 +20,22 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		if(tar==null)throw new Error("tar is null");
 		return tar;
 	}
+	public static function enumerate(begin:Int,end:Int):Pipeline<Int>{
+		if(!(begin<end))throw new Error("invalid range");
+		return {
+			iterator:function():Iterator<Int> {
+				var pos:Int=begin;
+				return {
+					hasNext:function():Bool {
+						return pos<end;
+					},
+					next:function():Int{
+						return pos++;
+					}
+				};
+			}
+		};
+	}
 
 	/**
 		open internal operation pipeline which filter element.
