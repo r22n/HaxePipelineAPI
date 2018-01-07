@@ -1,5 +1,5 @@
 # HaxePipelineAPI
-data processing pipeline API for HAXE language such MS LINQ.  
+data processing pipeline API for HAXE language such MS LINQ, java Stream API.
 simple definition and powerful unified data processing code empower your codes.  
 
 ## the pipeline processing
