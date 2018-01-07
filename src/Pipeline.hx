@@ -12,6 +12,16 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 	public function iterator():Iterator<T>{return this.iterator();}
 
 	/**
+		open data source as pipeline operation.
+		@param tar target data source 
+		@return root pipeline
+	*/
+	public static function open<T>(tar:Iterable<T>):Pipeline<T> {
+		if(tar==null)throw new Error("tar is null");
+		return tar;
+	}
+
+	/**
 		open internal operation pipeline which filter element.
 		the result yields some datas matches with pred.
 		@param pred the condition predicator
@@ -274,5 +284,31 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		var ret:Int=0;
 		for(x in this)ret++;
 		return ret;
+	}
+	/**
+		check up existing what any element passed from pipeline as terminal operation.
+		@param pred the predicator which checks element
+		@return there is element which passed pipeline
+	*/
+	public function any(pred:T->Bool):Bool{
+		if(this==null)throw new Error("null ref");
+		if(pred==null)throw new Error("pred is null");
+		for(x in this){
+			if(pred(x))return true;
+		}
+		return false;
+	}
+	/**
+		check up all elements which passed from pipeline match condition as terminal operation.
+		@param pred the predicator which checks element
+		@return all elements matches
+	*/
+	public function all(pred:T->Bool):Bool{
+		if(this==null)throw new Error("null ref");
+		if(pred==null)throw new Error("pred is null");
+		for(x in this) {
+			if(!pred(x))return false;
+		}
+		return true;
 	}
 }
