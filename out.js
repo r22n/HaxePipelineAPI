@@ -209,14 +209,16 @@ _$Pipeline_Pipeline_$Impl_$.sort = function(this1,com) {
 	if(com == null) {
 		throw new Error("com is null");
 	}
-	var ret = [];
-	var x = $iterator(this1)();
-	while(x.hasNext()) {
-		var x1 = x.next();
-		ret.push(x1);
-	}
-	ret.sort(com);
-	return ret;
+	return { iterator : function() {
+		var ret = [];
+		var x = $iterator(this1)();
+		while(x.hasNext()) {
+			var x1 = x.next();
+			ret.push(x1);
+		}
+		ret.sort(com);
+		return HxOverrides.iter(ret);
+	}};
 };
 _$Pipeline_Pipeline_$Impl_$.foreach = function(this1,com) {
 	if(this1 == null) {

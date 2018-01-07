@@ -152,18 +152,21 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		};
 	}
 	/**
-		sort all element as terminal operation.
-		if your call method chains has this, datas were determined in there.
+		sort all element as internal operation.
 		@param com the comparator will work in Array#sort
-		@return the terminal operated datas as pipeline type
+		@return the internal operated datas as pipeline type
 	*/
 	public function sort(com:T->T->Int):Pipeline<T> {
 		if(this==null)throw new Error("null ref");
 		if(com==null)throw new Error("com is null");
-		var ret:Array<T>=[];
-		for(x in this)ret.push(x);
-		ret.sort(com);
-		return ret;
+		return {
+			iterator:function():Iterator<T> {
+				var ret:Array<T>=[];
+				for(x in this)ret.push(x);
+				ret.sort(com);
+				return ret.iterator();
+			}
+		};
 	}
 	/**
 		execute command for all elements as termianl operation.
