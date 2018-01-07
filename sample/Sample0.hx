@@ -96,6 +96,12 @@ class Sample0 {
         );
 
         trace("#average age of people who is male");
+        /*
+            [people(root)]
+            =>[filter male(internal)]
+            =>[select age(internal)]
+            =>[aggregate average(terminal)]
+        */
         trace(
             people
             .where(function(x){return x.male;})
@@ -103,7 +109,6 @@ class Sample0 {
             .aggregate(0.0,function(left,right){return left+right;},function(sum,count){return sum/count;})
         );
 
-        
     }
 
 
