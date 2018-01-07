@@ -20,6 +20,12 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		if(tar==null)throw new Error("tar is null");
 		return tar;
 	}
+	/**
+		enumerate numbers in range.
+		@param begin the numbers of begin
+		@param end the numbers of end
+		@return the pipeline yields continuous numbers in range of [begin,end)
+	*/
 	public static function enumerate(begin:Int,end:Int):Pipeline<Int>{
 		if(!(begin<end))throw new Error("invalid range");
 		return {
