@@ -108,7 +108,6 @@ class Sample0 {
             .select(function(x){return x.age;})
             .aggregate(0.0,function(left,right){return left+right;},function(sum,count){return sum/count;})
         );
-
     }
 
 
