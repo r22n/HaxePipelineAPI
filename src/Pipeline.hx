@@ -287,6 +287,7 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 	}
 	/**
 		check up existing what any element passed from pipeline as terminal operation.
+		if pipeline has no element, returns false.
 		@param pred the predicator which checks element
 		@return there is element which passed pipeline
 	*/
@@ -300,6 +301,7 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 	}
 	/**
 		check up all elements which passed from pipeline match condition as terminal operation.
+		if pipeline has no element, returns true.
 		@param pred the predicator which checks element
 		@return all elements matches
 	*/
