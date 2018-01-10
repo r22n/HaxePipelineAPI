@@ -201,6 +201,46 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		};
 	}
 	/**
+		skips specified count of element and stalls pipeline.
+		@param count the count element drops
+		@return the pipeline has been stalled specified count.
+	 */
+	public function skip(count:Int):Pipeline<T> {
+		if(!(count>=0))throw new Error("neg count");
+		return {
+			iterator:function():Iterator<T>{
+				var itr:Iterator<T>=this.iterator();
+				for(i in 0...count){
+					if(!itr.hasNext())break;
+					itr.next();
+				}
+				return itr;
+			}
+		};
+	}
+	public function limit(count:Int):Pipeline<T>{
+		if(!(count>=0))throw new Error("neg count");
+		return {
+			iterator:function():Iterator<T>{
+				var itr:Iterator<T>=this.iterator();
+				var cur:Int=0;
+				var nex:Bool=false;
+				return {
+					hasNext:function():Bool{
+						return nex=itr.hasNext()&&cur<count;
+					},
+					next:function():T{
+						if(!nex)throw new Error("no elem");
+						cur++;
+						return itr.next();
+					}
+				};
+			}
+		};
+	}
+		
+		
+	/**
 		execute command for all elements as termianl operation.
 		@param com the command will work for all elements.
 	*/
