@@ -32,7 +32,7 @@ add Pipeline.hx into class path of haxe compiler.
 retrives Iterable type object to Pipeline type.  
 
 STEP 0: retrives some Iterable values  
-var src:Pipeline<Dynamic>=datas/*of Iterable type*/;  
+var src:Pipeline<Dynamic>=datas/\*of Iterable type\*/;  
 
 STEP 1: open pipeline for data processing  
 var pip: Pipeline<String> =  
@@ -57,11 +57,11 @@ so, by writing the internal operation code once, you can get the processing resu
 smart your codes such as:  
 var targets=[];  
 function XXX(){  
-    /*targets updated in here*/  
+    /\*targets updated in here\*/  
     for(xxx in targets) ...  
 }  
 function YYY(){  
-    /*targets updated in here*/  
+    /\*targets updated in here\*/  
     for(xxx in targets) ...  
     ...other  
 }  
@@ -71,9 +71,9 @@ var targets:Pipeline<Dynamic>=
     .where(function(x){return x.age>20;})  
     .select(function(x){return x.name;});  
 function XXX() {  
-    for(xxx in targets) ... /*determine all datas which passes from pipeline in here*/  
+    for(xxx in targets) ... /\*determine all datas which passes from pipeline in here\*/  
 }  
 function YYY() {  
-    for(yyy in targets) ... /*determine all datas which passes from pipeline in here*/  
+    for(yyy in targets) ... /\*determine all datas which passes from pipeline in here\*/  
     ...other  
 }  
