@@ -1,5 +1,5 @@
 # HaxePipelineAPI
-data processing pipeline API for HAXE language such MS LINQ, java Stream API.  
+data processing pipeline API for HAXE language such as MS LINQ, java Stream API.  
 simple definition and powerful unified data processing code empower your codes.  
 
 ## the pipeline processing
@@ -25,6 +25,21 @@ therefore, the example codes will work for datas such as [{name:"tom",age:20},{n
 [age greater than 20] retrives data which has age greater 20 from ...  
 {name:"tom",age:20},{name:"bob",age:30},{name:"ken",age:25},...  
 because of this text is more abstract than example codes, i want to empower some codes.  
+## APIs
+### open
+open pipeline from Iterable<T>.  
+pipeline variable allows you write powerful codes, but before do it, must store Iterable<T> into Pipeline type variable such as `var x:Pipeline<T>=array;`.  
+you can store Iterable<T> object into Pipeline<T> variables directly, but also, use open operation like `var x:Pipeline<T>=Pipeline.open(array);`.  
+this guearantees what variable of x is pipeline of array even if change this API's specification.  
+### enumerate
+get root pipeline yields continious integer numbers in range.  
+the range specified by 2 integer values such that \[begin,end).  
+`Pipeline.enumerate(0,10) => 0, 1, 2, ..., 9`
+### where(internal operation)
+create pipeline filts elements with specified condition.  
+as failing to match the elements with condtion, ignore its and stalls pipeline.  
+### select(internal operation)
+create pipeline force to remake element into other object.
 
 ## how to use
 usage is very simple.  
