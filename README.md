@@ -10,11 +10,11 @@ the text of:
 [age greater than 20] retrives data which has age greater 20 from ...  
 {name:"tom",age:20},{name:"bob",age:30},{name:"ken",age:25},...  
 is more abstract and powerful than:  
-for(person in people) {  
-    if(person.age>20){  
-        trace(person.name);  
+    for(person in people) {  
+        if(person.age>20){  
+            trace(person.name);  
+        }  
     }  
-}.  
 ### data processing
 exmaple data processing flow shows "[people] => [age greater than 20] => [show name]".  
 the "=> [age greater than 20] =>" means internal operation, which requires input element and process it, output element.  
