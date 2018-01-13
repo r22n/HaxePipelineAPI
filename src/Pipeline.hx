@@ -267,6 +267,11 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 			}
 		};
 	}
+	/**
+		limits specified count of element and abort pipeline.
+		@param count the count element limits 
+		@return the pipeline yields specified count elements from head
+	*/
 	public function limit(count:Int):Pipeline<T>{
 		if(!(count>=0))throw new Error("neg count");
 		return {
