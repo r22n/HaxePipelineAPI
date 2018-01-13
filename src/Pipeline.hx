@@ -14,6 +14,7 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 	/**
 		open data source as pipeline operation.
 		@param tar target data source 
+		@exception tar is null
 		@return root pipeline
 	*/
 	public static function open<T>(tar:Iterable<T>):Pipeline<T> {
@@ -24,6 +25,7 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		enumerate numbers in range.
 		@param begin the numbers of begin
 		@param end the numbers of end
+		@exception begin is greater equal than end
 		@return the pipeline yields continuous numbers in range of [begin,end)
 	*/
 	public static function enumerate(begin:Int,end:Int):Pipeline<Int>{
@@ -46,6 +48,7 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 	/**
 		open internal operation pipeline which filter element.
 		the result yields some datas matches with pred.
+		where-pipeline operation stalls all elements which is not match with pred.
 		@param pred the condition predicator
 		@return the pipeline which outputs filtered
 		@exception pred is null
@@ -183,6 +186,52 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 			}
 		};
 	}
+	/**
+		operates all elements by depth first all search order as internal operation.
+		firstly, retrives all elements from pipeline and push to stack.
+		secondly, pop from stack and retrives all children from it by explorer.
+		finally, yields poped element.
+		explorer must return its children, if the element has no child, returns null value.
+		if retrived children with explorer is null, push no element to stack.
+		for example what source pipeline yields [A(a,b) B(c) C(d)]:
+		next,	stack,	pass
+		0,	A B C,	NAN
+		1,	A B d,	C
+		2,	A B,	d
+		3,	A c,	B
+		4,	A,	c
+		5,	a b,	A
+		6,	a,	b
+		7,	,	a
+
+		@param explorer retrives all children from T type value, if it has no children, must return null.
+		@exception this is null
+		@exception explorer is null
+		@return the internal pipeline operation yields depth first retriving order elements contains leaf and root node.
+	*/
+	public function explore(explorer:T->Iterable<T>):Pipeline<T> {
+		if(this==null)throw new Error("this is null");
+		if(explorer==null)throw new Error("explorer is null");
+		return {
+			iterator:function():Iterator<T>{
+				var stack:Array<T>=[];
+				for(x in this)stack.push(x);
+				return {
+					hasNext:function():Bool {
+						return stack.length>0;
+					},
+					next:function():T{
+						if(!(stack.length>0))throw new Error("no elem");
+						var ret:T=stack.pop();
+						var child:Iterable<T>=explorer(ret);
+						if(child!=null)for(x in child)stack.push(x);
+						return ret;
+					}
+				};
+			}
+		};
+	}
+
 	/**
 		sort all element as internal operation.
 		@param com the comparator will work in Array#sort
@@ -374,5 +423,16 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 			if(!pred(x))return false;
 		}
 		return true;
+	}
+	/**
+		packs all elements which passed from pipeline into Array object as terminal operation.
+		@return the array which was packed all elements.
+		@exception this is null
+	*/
+	public function toArray():Array<T> {
+		if(this==null)throw new Error("this is null");
+		var ret:Array<T>=[];
+		for(x in this)ret.push(x);
+		return ret;
 	}
 }
