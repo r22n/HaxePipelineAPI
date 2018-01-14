@@ -25,6 +25,30 @@ therefore, the example codes will work for datas such as [{name:"tom",age:20},{n
 [age greater than 20] retrives data which has age greater 20 from ...  
 {name:"tom",age:20},{name:"bob",age:30},{name:"ken",age:25},...  
 because of this text is more abstract than example codes, i want to empower some codes.  
+## High Performance Pipeline
+### user specific terminal operation
+the terminal operation may mark better pipeline performance than processing with subroutine such as the case:  
+`var targets:Array<Dynamic>=subroutine(source);`  
+`trace(targets[0]);`  .
+because of no need to retrive elements from targets[1, ..., size-1], this code consumes machine resources.  
+so, we want to solution what can write simple user code such as above trace by single definition subroutine operation.  
+single definition subroutine make your code simpler, as defining no subrouine like `findAll` and `findFirst` and so on.  
+by using pipeline, you just define single definition `findAll`, the reason is `findAll` returns pipeline to found all elements and it retrives no elements in subroutine.  
+for code such that: `var targets:Pipeline<Dynamic>=subroutine(source);`, following codes provides different computing time.  
+`trace(targets.first()); => retrives first element only, and abort to process elements from second one`  
+`for(target in targets)do something; => retrives all element in here`  
+so, you can write single data processing subrouting definition, and it perform better because of the usage of computing resources decides terminal operations what you gave.  
+### pre-stall pipeline
+by all datas passes pipeline, your code takes computing time as long as size(length) of pipeline like below.  
+`src.where(...).select(...).....explore(...).skip(...)...`.  
+if pipeline operations does not stall and drop element, re-ordering pipeline has not effects to computing time.  
+`src.select(...).sort(...)'s comting time equals to src.sort(...).select(...)`  
+however, if pipeline stalls like `where, skip, limit` operations, it is worth of time what processing elements before its.  
+so, as writing high stall probability pipeline operation in front of method chain, you can reduce usage of compuing time.  
+therefore, `src.skip(100% stalls).limit(100% stalls).where(N% stalls).select(0% stalls)` works faster than:  
+`src.select(0% stalls).where(N% stalls).skip(100% stalls).limit(100% stalls)`.  
+because, second code drops element in where, skip, limit operation even though select operation processes it.  
+### 
 ## APIs
 ### open
 open pipeline from Iterable<T>.  
