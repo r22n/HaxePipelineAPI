@@ -33,6 +33,12 @@ pipeline variable allows you write powerful codes, but before do it, must store 
 you can store Iterable<T> object into Pipeline<T> variables directly, but also, use open operation like:  
 `var x:Pipeline<T>=Pipeline.open(array);`.  
 this guearantees what variable of x is pipeline of array even if change this API's specification.  
+### openFields, openMap
+open pipeline which fetches all fields with field name.  
+in map case, too.
+the pipeline yields {key:String,value:Dynamic} pair.  
+`Pipeline.openFields({x:XXX,y:YYY}) => {key:"x",value:XXX},{key:"y",value:YYY}`  
+`Pipeline.openMap([x=>XXX,y=>YYY]) => {key:x,value:XXX},{key:y,value:YYY}`  
 ### enumerate
 get root pipeline yields continious integer numbers in range.  
 the range specified by 2 integer values such that \[begin,end).  
