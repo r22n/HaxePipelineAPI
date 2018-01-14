@@ -25,11 +25,11 @@ therefore, the example codes will work for datas such as [{name:"tom",age:20},{n
 [age greater than 20] retrives data which has age greater 20 from ...  
 {name:"tom",age:20},{name:"bob",age:30},{name:"ken",age:25},...  
 because of this text is more abstract than example codes, i want to empower some codes.  
-## High Performance Pipeline
+## High Performance Pipeline Operating
 ### user specific terminal operation
 the terminal operation may mark better pipeline performance than processing with subroutine such as the case:  
 `var targets:Array<Dynamic>=subroutine(source);`  
-`trace(targets[0]);`  .
+`trace(targets[0]);`  
 because of no need to retrive elements from targets[1, ..., size-1], this code consumes machine resources.  
 so, we want to solution what can write simple user code such as above trace by single definition subroutine operation.  
 single definition subroutine make your code simpler, as defining no subrouine like `findAll` and `findFirst` and so on.  
@@ -48,7 +48,14 @@ so, as writing high stall probability pipeline operation in front of method chai
 therefore, `src.skip(100% stalls).limit(100% stalls).where(N% stalls).select(0% stalls)` works faster than:  
 `src.select(0% stalls).where(N% stalls).skip(100% stalls).limit(100% stalls)`.  
 because, second code drops element in where, skip, limit operation even though select operation processes it.  
-### 
+### no-recall tree enumeration
+for giving effects to composite like tree structure, you may write re-call function such as:  
+`doSomethingAndChildrenToo(x){do something; doSomethingAndChildrenToo(x.children);}`  
+manipulating x and its children with same action,  apply action to all elements in tree data.  
+if you want to other action, you must write functions with other one or using double dispatch.  
+but, it causes many definitions of subrouting and difficult factors to maintain its.  
+if you just apply same operation to all tree element, `explore` API works fine as internal pipeline operation.  
+`x.explore(function(x){return x.children;}).(do something what you want)`  
 ## APIs
 ### open
 open pipeline from Iterable<T>.  
