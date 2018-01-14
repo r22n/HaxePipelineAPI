@@ -22,6 +22,64 @@ abstract Pipeline<T>(Iterable<T>) from Iterable<T> to Iterable<T> {
 		return tar;
 	}
 	/**
+		open fields as root pipeline in {key, value} pair.
+		@param tar target object
+		@exception tar is null
+		@return the pipelie yields {key, value} pairs
+	*/
+	public static function openFields(tar:Dynamic):Pipeline<{key:String,value:Dynamic}>{
+		if(tar==null)throw new Error("tar is null");
+		return {
+			iterator:function():Iterator<{key:String,value:Dynamic}> {
+				var fields:Iterator<String>=Reflect.fields(tar).iterator();
+				var nex:Bool=false;
+				return {
+					hasNext:function():Bool{
+						return nex=fields.hasNext();
+					},
+					next:function():Dynamic{
+						if(!nex)throw new Error("no elem");
+						var key:String=fields.next();
+						var value:Dynamic=Reflect.field(tar,key);
+						return {
+							key:key,
+							value:value
+						};
+					}
+				};
+			}
+		};
+	}
+	/**
+		open all entries as root pipeline in {key, value} pair.
+		@param tar target map object
+		@exception tar is null
+		@return the pipeline yields {key, value} pairs
+	*/
+	public static function openMap<T,U>(tar:Map<T,U>):Pipeline<{key:T,value:U}>{
+		if(tar==null)throw new Error("tar is null");
+		return {
+			iterator:function():Iterator<{key:T,value:U}>{
+				var keys:Iterator<T>=tar.keys();
+				var nex:Bool=false;
+				return {
+					hasNext:function():Bool{
+						return nex=keys.hasNext();
+					},
+					next:function():Dynamic{
+						var key:T=keys.next();
+						var value:U=tar[key];
+						return {
+							key:key,
+							value:value
+						};
+					}
+				};
+			}
+		};
+	}
+
+	/**
 		enumerate numbers in range.
 		@param begin the numbers of begin
 		@param end the numbers of end
