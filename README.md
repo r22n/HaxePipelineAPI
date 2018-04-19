@@ -2,7 +2,7 @@
 data processing pipeline API for HAXE language such as MS LINQ, java Stream API.  
 simple definition and powerful unified data processing code empower your codes.  
 
-## the pipeline processing
+## the pipeline processing 
 ### powerful and unified data processing codes
 i want to empower data processing codes.  
 the text of:   
